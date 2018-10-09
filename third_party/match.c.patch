@@ -1,0 +1,550 @@
+*** eb/match.c	2018-10-06 14:54:30.159298029 -0400
+--- eb/match.c	2018-10-06 14:54:30.159298029 -0400
+***************
+*** 42,78 ****
+  int
+  eb_match_word(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_match_word(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_match_word() = %d", result));
+!     return result;
+  }
+  
+  
+--- 42,48 ----
+  int
+  eb_match_word(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 88,124 ****
+  int
+  eb_pre_match_word(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_pre_match_word(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_pre_match_word() = %d", result));
+!     return result;
+  }
+  
+  
+--- 58,64 ----
+  int
+  eb_pre_match_word(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 134,174 ****
+  int
+  eb_exact_match_word_jis(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_exact_match_word_jis(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    /* ignore spaces in the tail of the pattern */
+! 	    while (i < length && *pattern_p == '\0') {
+! 		pattern_p++;
+! 		i++;
+! 	    }
+! 	    result = (i - length);
+! 	    break;
+! 	}
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_exact_match_word_jis() = %d", result));
+!     return result;
+  }
+  
+  
+--- 74,80 ----
+  int
+  eb_exact_match_word_jis(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 185,225 ****
+  eb_exact_pre_match_word_jis(const char *word, const char *pattern,
+      size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_exact_pre_match_word_jis(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    /* ignore spaces in the tail of the pattern */
+! 	    while (i < length && *pattern_p == '\0') {
+! 		pattern_p++;
+! 		i++;
+! 	    }
+! 	    result = (i - length);
+! 	    break;
+! 	}
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_exact_pre_match_word_jis() = %d", result));
+!     return result;
+  }
+  
+  
+--- 91,97 ----
+  eb_exact_pre_match_word_jis(const char *word, const char *pattern,
+      size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 235,275 ****
+  int
+  eb_exact_match_word_latin(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_exact_match_word_latin(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    /* ignore spaces in the tail of the pattern */
+! 	    while (i < length && (*pattern_p == ' ' || *pattern_p == '\0')) {
+! 		pattern_p++;
+! 		i++;
+! 	    }
+! 	    result = (i - length);
+! 	    break;
+! 	}
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_exact_match_word_latin() = %d", result));
+!     return result;
+  }
+  
+  
+--- 107,113 ----
+  int
+  eb_exact_match_word_latin(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 286,326 ****
+  eb_exact_pre_match_word_latin(const char *word, const char *pattern,
+      size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     int result;
+! 
+!     LOG(("in: eb_exact_pre_match_word_latin(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    /* ignore spaces in the tail of the pattern */
+! 	    while (i < length && (*pattern_p == ' ' || *pattern_p == '\0')) {
+! 		pattern_p++;
+! 		i++;
+! 	    }
+! 	    result = (i - length);
+! 	    break;
+! 	}
+! 	if (*word_p != *pattern_p) {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	word_p++;
+! 	pattern_p++;
+! 	i++;
+!     }
+! 
+!     LOG(("out: eb_exact_pre_match_word_latin() = %d", result));
+!     return result;
+  }
+  
+  
+--- 124,130 ----
+  eb_exact_pre_match_word_latin(const char *word, const char *pattern,
+      size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 339,391 ****
+  int
+  eb_match_word_kana_group(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     unsigned char wc0, wc1, pc0, pc1;
+!     int result;
+! 
+!     LOG(("in: eb_match_word_kana_group(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 	if (length <= i + 1 || *(word_p + 1) == '\0') {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	wc0 = *word_p;
+! 	wc1 = *(word_p + 1);
+! 	pc0 = *pattern_p;
+! 	pc1 = *(pattern_p + 1);
+! 
+! 	if ((wc0 == 0x24 || wc0 == 0x25) && (pc0 == 0x24 || pc0 == 0x25)) {
+! 	    if (wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	} else {
+! 	    if (wc0 != pc0 || wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	}
+! 	word_p += 2;
+! 	pattern_p += 2;
+! 	i += 2;
+!     }
+! 
+!     LOG(("out: eb_match_word_kana_group() = %d", result));
+!     return result;
+  }
+  
+  
+--- 143,149 ----
+  int
+  eb_match_word_kana_group(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 404,456 ****
+  int
+  eb_match_word_kana_single(const char *word, const char *pattern, size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     unsigned char wc0, wc1, pc0, pc1;
+!     int result;
+! 
+!     LOG(("in: eb_match_word_kana_single(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = 0;
+! 	    break;
+! 	}
+! 	if (length <= i + 1 || *(word_p + 1) == '\0') {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 
+! 	wc0 = *word_p;
+! 	wc1 = *(word_p + 1);
+! 	pc0 = *pattern_p;
+! 	pc1 = *(pattern_p + 1);
+! 
+! 	if ((wc0 == 0x24 || wc0 == 0x25) && (pc0 == 0x24 || pc0 == 0x25)) {
+! 	    if (wc1 != pc1) {
+! 		result = wc1 - pc1;
+! 		break;
+! 	    }
+! 	} else {
+! 	    if (wc0 != pc0 || wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	}
+! 	word_p += 2;
+! 	pattern_p += 2;
+! 	i += 2;
+!     }
+! 
+!     LOG(("out: eb_match_word_kana_single() = %d", result));
+!     return result;
+  }
+  
+  
+--- 162,168 ----
+  int
+  eb_match_word_kana_single(const char *word, const char *pattern, size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 469,520 ****
+  eb_exact_match_word_kana_group(const char *word, const char *pattern,
+      size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     unsigned char wc0, wc1, pc0, pc1;
+!     int result;
+! 
+!     LOG(("in: eb_exact_match_word_kana_group(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = - *pattern_p;
+! 	    break;
+! 	}
+! 	if (length <= i + 1 || *(word_p + 1) == '\0') {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 	wc0 = *word_p;
+! 	wc1 = *(word_p + 1);
+! 	pc0 = *pattern_p;
+! 	pc1 = *(pattern_p + 1);
+! 
+! 	if ((wc0 == 0x24 || wc0 == 0x25) && (pc0 == 0x24 || pc0 == 0x25)) {
+! 	    if (wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	} else {
+! 	    if (wc0 != pc0 || wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	}
+! 	word_p += 2;
+! 	pattern_p += 2;
+! 	i += 2;
+!     }
+! 
+!     LOG(("out: eb_exact_match_word_kana_group() = %d", result));
+!     return result;
+  }
+  
+  
+--- 181,187 ----
+  eb_exact_match_word_kana_group(const char *word, const char *pattern,
+      size_t length)
+  {
+!     return 0;
+  }
+  
+  
+***************
+*** 534,585 ****
+  eb_exact_match_word_kana_single(const char *word, const char *pattern,
+      size_t length)
+  {
+!     int i = 0;
+!     unsigned char *word_p = (unsigned char *)word;
+!     unsigned char *pattern_p = (unsigned char *)pattern;
+!     unsigned char wc0, wc1, pc0, pc1;
+!     int result;
+! 
+!     LOG(("in: eb_exact_match_word_kana_single(word=%s, pattern=%s)",
+! 	eb_quoted_stream(word, EB_MAX_WORD_LENGTH),
+! 	eb_quoted_stream(pattern, length)));
+! 
+!     for (;;) {
+! 	if (length <= i) {
+! 	    result = *word_p;
+! 	    break;
+! 	}
+! 	if (*word_p == '\0') {
+! 	    result = - *pattern_p;
+! 	    break;
+! 	}
+! 	if (length <= i + 1 || *(word_p + 1) == '\0') {
+! 	    result = *word_p - *pattern_p;
+! 	    break;
+! 	}
+! 	wc0 = *word_p;
+! 	wc1 = *(word_p + 1);
+! 	pc0 = *pattern_p;
+! 	pc1 = *(pattern_p + 1);
+! 
+! 	if ((wc0 == 0x24 || wc0 == 0x25) && (pc0 == 0x24 || pc0 == 0x25)) {
+! 	    if (wc1 != pc1) {
+! 		result = wc1 - pc1;
+! 		break;
+! 	    }
+! 	} else {
+! 	    if (wc0 != pc0 || wc1 != pc1) {
+! 		result = ((wc0 << 8) + wc1) - ((pc0 << 8) + pc1);
+! 		break;
+! 	    }
+! 	}
+! 	word_p += 2;
+! 	pattern_p += 2;
+! 	i += 2;
+!     }
+! 
+!     LOG(("out: eb_exact_match_word_kana_single() = %d", result));
+!     return result;
+  }
+  
+  
+--- 201,207 ----
+  eb_exact_match_word_kana_single(const char *word, const char *pattern,
+      size_t length)
+  {
+!     return 0;
+  }
+  
+  
