@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
     gflags
     GIT_REPOSITORY https://github.com/gflags/gflags
-    GIT_TAG v2.2.1
+    GIT_TAG v2.2.2
 )
 
 FetchContent_GetProperties(gflags)

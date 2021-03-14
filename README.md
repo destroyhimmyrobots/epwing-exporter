@@ -46,18 +46,27 @@ To export HTML5:
 
 ### Building
 
+Linux and Docker users may issue the following to obtain a build environment:
+
+    docker build -t epwing-exporter .
+    docker run --rm -it -v "$PWD:/workspace" epwing-exporter
+
 _EPWING Exporter_ can be built from source on Linux and OSX with CMake.
+
 For example, to build on Linux:
 
-    cd github.com/destroyhimmyrobots/epwing-exporter
-    mkdir build
-    cd build
-    cmake ..
-    make
-    # cmd/epwing-exporter
+    # CMake will fail before the first build due to an issue
+    # with the way ExternalProject interacts with ordinary build phases.
+    ( mkdir build && cd build && cmake .. ; make )
+    # Re-generating and building a second time should succeed.
+    ( cd build && cmake .. && make )
+    # Run the resulting binary.
+    build/cmd/epwing-exporter
 
-Builds have been tested against Clang 6 (OSX & Linux) and GCC 8 (Linux).
+Builds have been tested against Clang 6 and 7 (OSX & Linux) and GCC 8 (Linux) with CMake 3.13.
+ZLib must be installed on the system.
 
+Note that CMake segmentation faults were observed when attempting to build with CMake 3.18 and 3.19.
 ### Dependencies
 
 If building on OSX, `libiconv` must be installed with `brew install iconv`.

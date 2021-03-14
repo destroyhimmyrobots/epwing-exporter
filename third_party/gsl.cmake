@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
     gsl
     GIT_REPOSITORY https://github.com/microsoft/gsl
-    GIT_TAG v2.0.0
+    GIT_TAG v3.1.0
 )
 
 FetchContent_GetProperties(gsl)

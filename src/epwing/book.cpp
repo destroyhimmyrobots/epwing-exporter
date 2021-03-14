@@ -112,7 +112,7 @@ epwing::Book::hit_list() {
     if (error_code = eb_hit_list(&book, max_size_hits, ptr, &hit_list_size);
         error_code != EB_SUCCESS)
         throw LibraryError(error_code, "eb_hit_list: failed to get list"s);
-    return {ptr, hit_list_size};
+    return {ptr, static_cast<gsl::span<EB_Hit>::size_type>(hit_list_size)};
 }
 
 void
@@ -128,7 +128,7 @@ epwing::Book::subbook_list() {
     if (error_code = eb_subbook_list(&book, subbook_list_buf->data(), &sub_book_count);
         error_code != EB_SUCCESS)
         throw LibraryError(error_code, "eb_subbook_list: failed to get the subbbook list"s);
-    return {subbook_list_buf->begin(), sub_book_count};
+    return {subbook_list_buf->begin(), static_cast<gsl::span<EB_Hit>::size_type>(sub_book_count)};
 }
 
 EB_Character_Code

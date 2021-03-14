@@ -54,7 +54,7 @@ add_library(
 )
 
 add_subdirectory(gaiji)
-target_link_libraries(epwing PRIVATE GSL zlib-alias eb gaiji)
+target_link_libraries(epwing PRIVATE GSL z eb gaiji)
 
 if (APPLE)
     target_link_libraries(epwing PRIVATE iconv)
