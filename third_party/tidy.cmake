@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
     libtidy
     GIT_REPOSITORY https://github.com/htacg/tidy-html5.git
-    GIT_TAG 5.7.28
+    GIT_TAG 5.8.0
 )
 
 FetchContent_GetProperties(libtidy)
